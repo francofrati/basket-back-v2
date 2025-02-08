@@ -6,7 +6,7 @@ export class OrganizationsService {
   constructor(
     @Inject('BASKET_INTERMEDIA_V2_POOL')
     private readonly basketIntermediaV2Pool: Pool,
-  ) {}
+  ) { }
 
   async getOrganizations() {
     return (await this.basketIntermediaV2Pool.query(`SELECT * FROM tournament`))
@@ -24,8 +24,14 @@ export class OrganizationsService {
   async getTeamsPerOrganization(organizationId: string) {
     return (
       await this.basketIntermediaV2Pool.query(
-        `SELECT * FROM VWteamsComplete WHERE "tournamentId"='${organizationId}'`,
+        `SELECT "id", "categoryId", "name", "description", "logoUrl", "created_at", "categoryName" FROM VWteamsComplete WHERE "tournamentId"='${organizationId}'`,
       )
     ).rows;
+  }
+
+  async getSeasonsPerOrganization(organizationId: string) {
+    return (await this.basketIntermediaV2Pool.query(
+      `SELECT * FROM VWseasons where "tournamentId"='${organizationId}'`
+    )).rows
   }
 }

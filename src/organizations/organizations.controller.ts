@@ -3,7 +3,7 @@ import { OrganizationsService } from './organizations.service';
 
 @Controller('organizations')
 export class OrganizationsController {
-  constructor(private readonly organizationService: OrganizationsService) {}
+  constructor(private readonly organizationService: OrganizationsService) { }
 
   @Get()
   async getOrganizations() {
@@ -33,6 +33,18 @@ export class OrganizationsController {
       );
     } catch (error) {
       return error.message;
+    }
+  }
+
+  @Get(':organizationId/seasons')
+  async getSeasonsPerOrganization(@Param() params: { organizationId: string }) {
+    try {
+      const { organizationId } = params
+
+      return await this.organizationService.getSeasonsPerOrganization(organizationId)
+
+    } catch (error) {
+      return error.message
     }
   }
 }
