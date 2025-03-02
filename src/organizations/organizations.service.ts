@@ -6,7 +6,7 @@ export class OrganizationsService {
   constructor(
     @Inject('BASKET_INTERMEDIA_V2_POOL')
     private readonly basketIntermediaV2Pool: Pool,
-  ) { }
+  ) {}
 
   async getOrganizations() {
     return (await this.basketIntermediaV2Pool.query(`SELECT * FROM tournament`))
@@ -30,8 +30,18 @@ export class OrganizationsService {
   }
 
   async getSeasonsPerOrganization(organizationId: string) {
-    return (await this.basketIntermediaV2Pool.query(
-      `SELECT * FROM VWseasons where "tournamentId"='${organizationId}'`
-    )).rows
+    return (
+      await this.basketIntermediaV2Pool.query(
+        `SELECT * FROM VWseasons where "tournamentId"='${organizationId}'`,
+      )
+    ).rows;
+  }
+
+  async getDatesPerRegularPhase(regularPhaseId: string) {
+    return (
+      await this.basketIntermediaV2Pool.query(
+        `SELECT d.id as "dateId", d."name" as "dateName", d."startDate", d."endDate", d."index" FROM "regularPhaseDate" rpd LEFT JOIN date d ON d.id=rpd."dateId" WHERE "regularPhaseId"=${regularPhaseId}`,
+      )
+    ).rows;
   }
 }

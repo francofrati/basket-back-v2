@@ -1,9 +1,9 @@
-import { Controller, Get, Param } from '@nestjs/common';
+import { Body, Controller, Get, Param, Post } from '@nestjs/common';
 import { OrganizationsService } from './organizations.service';
 
 @Controller('organizations')
 export class OrganizationsController {
-  constructor(private readonly organizationService: OrganizationsService) { }
+  constructor(private readonly organizationService: OrganizationsService) {}
 
   @Get()
   async getOrganizations() {
@@ -39,12 +39,26 @@ export class OrganizationsController {
   @Get(':organizationId/seasons')
   async getSeasonsPerOrganization(@Param() params: { organizationId: string }) {
     try {
-      const { organizationId } = params
+      const { organizationId } = params;
 
-      return await this.organizationService.getSeasonsPerOrganization(organizationId)
-
+      return await this.organizationService.getSeasonsPerOrganization(
+        organizationId,
+      );
     } catch (error) {
-      return error.message
+      return error.message;
+    }
+  }
+
+  @Get(':organizationId/regularPhase/:regularPhaseId/dates')
+  async getDatesPerRegularPhase(@Param() params: { regularPhaseId: string }) {
+    try {
+      const { regularPhaseId } = params;
+
+      return await this.organizationService.getDatesPerRegularPhase(
+        regularPhaseId,
+      );
+    } catch (error) {
+      return error.message;
     }
   }
 }
