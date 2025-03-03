@@ -20,4 +20,6 @@ import { Pool } from 'pg'
     exports: ['BASKET_INTERMEDIA_V2_POOL'],
 
 })
-export class DatabaseModule { }
+export class DatabaseModule {
+
+}

@@ -1,9 +1,14 @@
-import { Body, Controller, Get, Param, Post } from '@nestjs/common';
+import { Body, Controller, Get, Inject, Param, Post } from '@nestjs/common';
 import { OrganizationsService } from './organizations.service';
+import { DatabaseModule } from 'src/database/database.module';
+import { AppModule } from 'src/app.module';
+import { formatDate } from 'src/database/database.utils';
 
 @Controller('organizations')
 export class OrganizationsController {
-  constructor(private readonly organizationService: OrganizationsService) {}
+  constructor(private readonly organizationService: OrganizationsService
+
+  ) { }
 
   @Get()
   async getOrganizations() {
@@ -53,10 +58,16 @@ export class OrganizationsController {
   async getDatesPerRegularPhase(@Param() params: { regularPhaseId: string }) {
     try {
       const { regularPhaseId } = params;
-
-      return await this.organizationService.getDatesPerRegularPhase(
+      return (await this.organizationService.getDatesPerRegularPhase(
         regularPhaseId,
-      );
+      )).map((date) => {
+        return {
+          ...date,
+          startDate: formatDate(date.startDate, 'DD/MM/YY'),
+          endDate: formatDate(date.endDate, 'DD/MM/YY')
+
+        }
+      });
     } catch (error) {
       return error.message;
     }
