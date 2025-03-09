@@ -5,6 +5,8 @@ import { AppService } from './app.service';
 import { DatabaseModule } from './database/database.module';
 import { OrganizationsController } from './organizations/organizations.controller';
 import { OrganizationsService } from './organizations/organizations.service';
+import { TeamsController } from './teams/teams.controller';
+import { TeamsService } from './teams/teams.service';
 
 @Module({
   imports: [
@@ -13,7 +15,7 @@ import { OrganizationsService } from './organizations/organizations.service';
       isGlobal: true
     })
   ],
-  controllers: [AppController, OrganizationsController],
-  providers: [AppService, OrganizationsService],
+  controllers: [AppController, OrganizationsController, TeamsController],
+  providers: [AppService, OrganizationsService, TeamsService],
 })
 export class AppModule { }

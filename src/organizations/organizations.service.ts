@@ -44,4 +44,9 @@ export class OrganizationsService {
       )
     ).rows;
   }
+
+  async getCategoriesPerOrganization(organizationId: string) {
+    return (await this.basketIntermediaV2Pool.query(`SELECT * FROM category WHERE "tournamentId"=${organizationId}`)).rows
+  }
+
 }
