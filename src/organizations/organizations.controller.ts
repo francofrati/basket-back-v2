@@ -54,6 +54,18 @@ export class OrganizationsController {
     }
   }
 
+  @Get(':organizationId/categories')
+  async getCategoriesPerSeason(@Param() params: { organizationId: string }) {
+    try {
+
+      const { organizationId } = params
+
+      return await this.organizationService.getCategoriesPerOrganization(organizationId)
+    } catch (error) {
+      return error.message
+    }
+  }
+
   @Get(':organizationId/regularPhase/:regularPhaseId/dates')
   async getDatesPerRegularPhase(@Param() params: { regularPhaseId: string }) {
     try {
